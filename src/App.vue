@@ -1,23 +1,53 @@
 <template>
   <v-app>
     <v-main>
+    <!--
       <HelloWorld/>
+    -->
+      <employe v-if="isDisplayed" v-model="idemploye"  :msg="msg" :id="id" @jobclick="onJobClick"></employe><br>
     </v-main>
   </v-app>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import Employe from './components/Employe.vue'
+import { defineComponent, defineEmits, ref, onMounted } from 'vue'
 
-export default {
-  name: 'App',
+const employe = defineComponent(Employe)
+const emit = defineEmits(['jobclick'])
 
-  components: {
-    HelloWorld,
-  },
+const idemploye = ref(10958)
+const msg = ref('toto')
+const id = ref(6)
+const isDisplayed = ref(true)
 
-  data: () => ({
-    //
-  }),
+const showComponent = () => {
+  this.isDisplayed = !this.isDisplayed
+}
+
+onMounted(() => {
+  setTimeout(() => {
+    msg.value = 'tutu'
+    id.value = 10958
+  }, 10000)
+})
+
+const onJobClick = () => {
+  console.log('On est dans onJobClick')
+  emit('jobclick', 666)
 }
 </script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+* {
+   text-transform: none !important; 
+}
+</style>
